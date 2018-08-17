@@ -1,0 +1,15 @@
+{
+  "name": "clash-stats-cron",
+  "author": "Jason Rametta <rametta@outlook.com>",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "axios": "^0.18.0"
+  },
+  "scripts": {
+    "start": "nodemon --exec babel-node src/cron.js"
+  },
+  "devDependencies": {
+    "babel-preset-env": "^1.7.0"
+  }
+}
