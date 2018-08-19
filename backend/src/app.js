@@ -1,12 +1,21 @@
 import express from 'express'
-import playerJSON from './fixtures/player.json'
+import bodyParser from 'body-parser'
+import mongoose from 'mongoose'
+import dotenv from 'dotenv'
+import player from './routes/player'
 const app = express()
 const PORT = 4000
+dotenv.config()
 
-app.get('/player', (req, res) => {
-  res.send(playerJSON)
-})
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
+app.use(player)
 
-app.listen(PORT, () => {
-  console.log(`Listening on port: ${PORT}`)
-})
+mongoose.Promise = global.Promise
+mongoose
+  .connect(
+    process.env.MONGO_URI,
+    { useNewUrlParser: true }
+  )
+  .then(() => app.listen(PORT, () => console.log('Listening on port:', PORT)))
+  .catch(() => console.log('Could not connect to DB'))
