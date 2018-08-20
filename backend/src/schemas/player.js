@@ -30,7 +30,11 @@ const PlayerSchema = new Schema({
   achievements: [AchievementSchema],
   cards: [CardSchema],
   currentDeck: [CardSchema],
-  currentDeckFavouriteCard: CardSchema
+  currentDeckFavouriteCard: CardSchema,
+  lastUpdate: {
+    type: Date,
+    default: Date.now
+  }
 })
 
 export default PlayerSchema

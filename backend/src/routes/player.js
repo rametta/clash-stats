@@ -3,7 +3,7 @@ import Player from './../models/player'
 const router = express.Router()
 
 router.get('/api/players', (req, res, next) =>
-  Player.find({}).then(players => res.send(players))
+  Player.find().then(players => res.send(players))
 )
 
 router.get('/api/player/:id', (req, res, next) =>
@@ -18,13 +18,13 @@ router.post('/api/player', (req, res, next) =>
 )
 
 router.put('/api/player', (req, res, next) =>
-  Garden.updateOne({ _id: req.body.player.id }, req.body.player)
+  Player.updateOne({ _id: req.body.player._id }, req.body.player)
     .then(player => res.send(player))
     .catch(err => res.status(400).send(err))
 )
 
 router.delete('/api/player', (req, res, next) =>
-  Garden.remove({ _id: req.body.id })
+  Player.remove({ _id: req.body.id })
     .then(suc => res.send({ msg: `Player ${req.body.id} deleted` }))
     .catch(err => res.status(400).send(err))
 )
