@@ -36,7 +36,11 @@ const ClanSchema = new Schema({
   clanChestMaxLevel: Number,
   members: Number,
   location: LocationSchema,
-  memberList: [MemberSchema]
+  memberList: [MemberSchema],
+  lastUpdate: {
+    type: Date,
+    default: Date.now
+  }
 })
 
 export default ClanSchema

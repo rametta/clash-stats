@@ -2,7 +2,7 @@
   "name": "clash-stats-frontend",
   "author": "Jason Rametta <rametta@outlook.com>",
   "version": "0.1.0",
-  "proxy": "http://localhost:4000",
+  "proxy": "http://localhost:6060",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^1.5.0",

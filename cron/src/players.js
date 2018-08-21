@@ -32,9 +32,14 @@ const fetchPlayerUpdates = player =>
 const updatePlayer = player =>
   tryP(() => axios.put(`${API}/api/player`, { player })).map(({ data }) => data)
 
+// updateTime :: Player -> Player
+const updateTime = player =>
+  Object.assign({}, player, { lastUpdate: Date.now() })
+
 players()
   .map(users => users.map(fetchPlayerUpdates))
   .chain(users => parallel(Infinity, users))
+  .map(users => users.map(updateTime))
   .map(users => users.map(updatePlayer))
   .chain(users => parallel(Infinity, users))
   .fork(console.error, console.log)

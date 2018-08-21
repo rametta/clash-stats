@@ -9,9 +9,10 @@
     "fluture": "^9.0.1"
   },
   "scripts": {
-    "dev": "nodemon --exec babel-node src/cron.js",
+    "dev-players": "nodemon --exec babel-node src/players.js",
+    "dev-clan": "nodemon --exec babel-node src/clan.js",
     "clean": "rm -rf build && mkdir build",
-    "build": "yarn clean && babel -d ./build ./src"
+    "build": "yarn clean && babel -d ./build ./src/players.js && babel -d ./build ./src/clan.js"
   },
   "devDependencies": {
     "babel-preset-env": "^1.7.0"
