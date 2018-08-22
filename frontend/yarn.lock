@@ -1955,6 +1955,13 @@ d@1:
   dependencies:
     es5-ext "^0.10.9"
 
+daggy@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/daggy/-/daggy-1.2.0.tgz#f0151fcffd58f1742d63d8c53a7556e84b258cb4"
+  dependencies:
+    sanctuary-type-classes "3.0.0"
+    sanctuary-type-identifiers "1.0.0"
+
 damerau-levenshtein@^1.0.0:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/damerau-levenshtein/-/damerau-levenshtein-1.0.4.tgz#03191c432cb6eea168bb77f3a55ffdccb8978514"
@@ -1968,6 +1975,10 @@ dashdash@^1.12.0:
 date-now@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/date-now/-/date-now-0.1.4.tgz#eaf439fd4d4848ad74e5cc7dbef200672b9e345b"
+
+dayjs@^1.7.5:
+  version "1.7.5"
+  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.7.5.tgz#14715cb565d1f8cb556a8531cb14bf1fc33067cc"
 
 debounce@^1.1.0:
   version "1.2.0"
@@ -5977,6 +5988,10 @@ reduce-function-call@^1.0.1:
   dependencies:
     balanced-match "^0.4.2"
 
+redux-thunk@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/redux-thunk/-/redux-thunk-2.3.0.tgz#51c2c19a185ed5187aaa9a2d08b666d0d6467622"
+
 redux@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/redux/-/redux-4.0.0.tgz#aa698a92b729315d22b34a0553d7e6533555cc03"
@@ -6240,6 +6255,72 @@ safe-regex@^1.1.0:
 "safer-buffer@>= 2.1.2 < 3", safer-buffer@^2.0.2, safer-buffer@^2.1.0, safer-buffer@~2.1.0:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/safer-buffer/-/safer-buffer-2.1.2.tgz#44fa161b0187b9549dd84bb91802f9bd8385cd6a"
+
+sanctuary-def@0.18.1:
+  version "0.18.1"
+  resolved "https://registry.yarnpkg.com/sanctuary-def/-/sanctuary-def-0.18.1.tgz#580af82a3fbbd651e8dddc0ab34b11727ef63b5f"
+  dependencies:
+    sanctuary-either "1.0.x"
+    sanctuary-show "1.0.x"
+    sanctuary-type-classes "9.0.x"
+    sanctuary-type-identifiers "2.0.x"
+
+sanctuary-either@1.0.0, sanctuary-either@1.0.x:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/sanctuary-either/-/sanctuary-either-1.0.0.tgz#b6041e54c639700048be757ba4d6c026c2c2f67c"
+  dependencies:
+    sanctuary-show "1.0.x"
+    sanctuary-type-classes "9.0.0"
+
+sanctuary-maybe@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/sanctuary-maybe/-/sanctuary-maybe-1.0.0.tgz#03cd226d933ec89270e4495a965733390e843afc"
+  dependencies:
+    sanctuary-show "1.0.x"
+    sanctuary-type-classes "9.0.0"
+
+sanctuary-pair@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/sanctuary-pair/-/sanctuary-pair-1.0.0.tgz#eaf8121f0ba3064e5e0b09bb624bc3885209886a"
+  dependencies:
+    sanctuary-show "1.0.x"
+    sanctuary-type-classes "9.0.0"
+
+sanctuary-show@1.0.0, sanctuary-show@1.0.x:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/sanctuary-show/-/sanctuary-show-1.0.0.tgz#72deb4812f9decec850e03286807dca1c97a1d61"
+
+sanctuary-type-classes@3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/sanctuary-type-classes/-/sanctuary-type-classes-3.0.0.tgz#e4cf422abceb8c78b6f625d84d61fdb5c6d44116"
+  dependencies:
+    sanctuary-type-identifiers "1.0.x"
+
+sanctuary-type-classes@9.0.0, sanctuary-type-classes@9.0.x:
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/sanctuary-type-classes/-/sanctuary-type-classes-9.0.0.tgz#b44741ca67fa650cbd314e1ad318d730ce1309a4"
+  dependencies:
+    sanctuary-type-identifiers "1.0.x"
+
+sanctuary-type-identifiers@1.0.0, sanctuary-type-identifiers@1.0.x:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/sanctuary-type-identifiers/-/sanctuary-type-identifiers-1.0.0.tgz#e8f359f006cb5e624cfb8464603fc114608bde9f"
+
+sanctuary-type-identifiers@2.0.1, sanctuary-type-identifiers@2.0.x:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/sanctuary-type-identifiers/-/sanctuary-type-identifiers-2.0.1.tgz#fc524cf6dd92cebfcbb0dd9509eff193159a20ed"
+
+sanctuary@^0.15.0:
+  version "0.15.0"
+  resolved "https://registry.yarnpkg.com/sanctuary/-/sanctuary-0.15.0.tgz#a4b9bf7a43bad928dce3e7aa590fbf30681b9ebd"
+  dependencies:
+    sanctuary-def "0.18.1"
+    sanctuary-either "1.0.0"
+    sanctuary-maybe "1.0.0"
+    sanctuary-pair "1.0.0"
+    sanctuary-show "1.0.0"
+    sanctuary-type-classes "9.0.0"
+    sanctuary-type-identifiers "2.0.1"
 
 sane@~1.6.0:
   version "1.6.0"

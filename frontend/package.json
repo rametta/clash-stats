@@ -8,11 +8,15 @@
     "@material-ui/core": "^1.5.0",
     "@material-ui/icons": "^2.0.2",
     "axios": "^0.18.0",
+    "daggy": "^1.2.0",
+    "dayjs": "^1.7.5",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
     "react-redux": "^5.0.7",
     "react-scripts": "1.1.4",
-    "redux": "^4.0.0"
+    "redux": "^4.0.0",
+    "redux-thunk": "^2.3.0",
+    "sanctuary": "^0.15.0"
   },
   "scripts": {
     "start": "react-scripts start",
