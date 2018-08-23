@@ -1,8 +1,9 @@
 import React from 'react'
+import { Link, withRouter } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles'
 import BottomNavigation from '@material-ui/core/BottomNavigation'
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction'
-import InfoIcon from '@material-ui/icons/InfoTwoTone'
+import GameIcon from '@material-ui/icons/GamesTwoTone'
 import HomeIcon from '@material-ui/icons/HomeTwoTone'
 import ClanIcon from '@material-ui/icons/CategoryTwoTone'
 
@@ -15,32 +16,30 @@ const styles = {
   }
 }
 
-class SimpleBottomNavigation extends React.Component {
-  state = {
-    value: 0
-  }
+const SimpleBottomNavigation = ({ classes, location: { pathname } }) => (
+  <BottomNavigation value={pathname} showLabels className={classes.root}>
+    <BottomNavigationAction
+      component={Link}
+      to="/war"
+      value="/war"
+      label="War Log"
+      icon={<GameIcon />}
+    />
+    <BottomNavigationAction
+      component={Link}
+      to="/"
+      value="/"
+      label="Home"
+      icon={<HomeIcon />}
+    />
+    <BottomNavigationAction
+      component={Link}
+      to="/clan"
+      value="/clan"
+      label="Clan"
+      icon={<ClanIcon />}
+    />
+  </BottomNavigation>
+)
 
-  handleChange = (event, value) => {
-    this.setState({ value })
-  }
-
-  render() {
-    const { classes } = this.props
-    const { value } = this.state
-
-    return (
-      <BottomNavigation
-        value={value}
-        onChange={this.handleChange}
-        showLabels
-        className={classes.root}
-      >
-        <BottomNavigationAction label="Info" icon={<InfoIcon />} />
-        <BottomNavigationAction label="Home" icon={<HomeIcon />} />
-        <BottomNavigationAction label="Clan" icon={<ClanIcon />} />
-      </BottomNavigation>
-    )
-  }
-}
-
-export const BottomNav = withStyles(styles)(SimpleBottomNavigation)
+export const BottomNav = withRouter(withStyles(styles)(SimpleBottomNavigation))

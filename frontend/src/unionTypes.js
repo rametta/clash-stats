@@ -1,13 +1,9 @@
 import { taggedSum } from 'daggy'
 
-export const Loader = taggedSum('Loader', {
-  Loading: [],
-  Idle: []
-})
-
 export const Players = taggedSum('Players', {
   List: ['list'],
-  Error: ['msg']
+  Error: ['msg'],
+  Loading: []
 })
 
 export const Diff = taggedSum('Diff', {

@@ -1,5 +1,5 @@
 import { formatPlayers, sortPlayers } from './formatters'
-import { Loader, Players, Sort } from './unionTypes'
+import { Players, Sort } from './unionTypes'
 
 // Action types
 const types = {
@@ -13,8 +13,7 @@ export const errPlayers = payload => ({ type: types.PLAYERS_ERR, payload })
 
 // Initial State
 const init = {
-  players: Players.List([]),
-  playersLoading: Loader.Idle
+  players: Players.Loading
 }
 
 export default (state = init, { type, payload }) => {
@@ -22,7 +21,6 @@ export default (state = init, { type, payload }) => {
     case types.PLAYERS_RES:
       return {
         ...state,
-        playersLoading: Loader.Idle,
         players: Players.List(
           sortPlayers(Sort.Desc('trophies'))(formatPlayers(payload))
         )
@@ -30,7 +28,6 @@ export default (state = init, { type, payload }) => {
     case types.PLAYERS_ERR:
       return {
         ...state,
-        playersLoading: Loader.Idle,
         players: Players.Error(payload)
       }
     default:

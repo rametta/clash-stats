@@ -8,12 +8,16 @@ import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
+import LinearProgress from '@material-ui/core/LinearProgress'
 import { getPlayers } from './../../thunks'
 
 const styles = theme => ({
   root: {
-    marginTop: theme.spacing.unit * 3,
+    margin: theme.spacing.unit * 3,
     overflowX: 'auto'
+  },
+  nowrap: {
+    whiteSpace: 'nowrap'
   },
   table: {
     minWidth: 700
@@ -42,18 +46,42 @@ class HomeUnstyled extends Component {
                 <TableHead>
                   <TableRow>
                     <TableCell>User</TableCell>
-                    <TableCell numeric>Level</TableCell>
-                    <TableCell numeric>War Day Wins</TableCell>
-                    <TableCell numeric>Trophies</TableCell>
-                    <TableCell numeric>Battles</TableCell>
-                    <TableCell numeric>Wins</TableCell>
-                    <TableCell numeric>Losses</TableCell>
-                    <TableCell numeric>W/L Ratio</TableCell>
-                    <TableCell numeric>W/L Diff</TableCell>
-                    <TableCell numeric>Three Crowns</TableCell>
-                    <TableCell numeric>Challenges Max Wins</TableCell>
-                    <TableCell numeric>Donations</TableCell>
-                    <TableCell numeric>Clan Cards Collected</TableCell>
+                    <TableCell className={classes.nowrap} numeric>
+                      Level
+                    </TableCell>
+                    <TableCell className={classes.nowrap} numeric>
+                      War Wins
+                    </TableCell>
+                    <TableCell className={classes.nowrap} numeric>
+                      Trophies
+                    </TableCell>
+                    <TableCell className={classes.nowrap} numeric>
+                      Battles
+                    </TableCell>
+                    <TableCell className={classes.nowrap} numeric>
+                      Wins
+                    </TableCell>
+                    <TableCell className={classes.nowrap} numeric>
+                      Losses
+                    </TableCell>
+                    <TableCell className={classes.nowrap} numeric>
+                      W/L Ratio
+                    </TableCell>
+                    <TableCell className={classes.nowrap} numeric>
+                      W/L Diff
+                    </TableCell>
+                    <TableCell className={classes.nowrap} numeric>
+                      Three Crowns
+                    </TableCell>
+                    <TableCell className={classes.nowrap} numeric>
+                      Challenge Max Wins
+                    </TableCell>
+                    <TableCell className={classes.nowrap} numeric>
+                      Donations
+                    </TableCell>
+                    <TableCell className={classes.nowrap} numeric>
+                      Clan Cards Collected
+                    </TableCell>
                     <TableCell>Updated</TableCell>
                   </TableRow>
                 </TableHead>
@@ -89,7 +117,9 @@ class HomeUnstyled extends Component {
                       <TableCell numeric>
                         {player.clanCardsCollectedFormatted}
                       </TableCell>
-                      <TableCell>{player.lastUpdate}</TableCell>
+                      <TableCell className={classes.nowrap}>
+                        {player.lastUpdate}
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -98,7 +128,8 @@ class HomeUnstyled extends Component {
           </Grid>
         </Grid>
       ),
-      Error: msg => <code>{msg}</code>
+      Error: msg => <code>{msg}</code>,
+      Loading: () => <LinearProgress />
     })
   }
 }

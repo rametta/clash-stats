@@ -5,7 +5,7 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import { BottomNav } from './bottomNav'
 
-const styles = theme => ({
+const styles = {
   main: {
     height: '100%',
     display: 'flex',
@@ -15,7 +15,7 @@ const styles = theme => ({
     flex: 1,
     marginBottom: '75px'
   }
-})
+}
 
 const Navbar = () => (
   <AppBar color="primary" position="sticky">
