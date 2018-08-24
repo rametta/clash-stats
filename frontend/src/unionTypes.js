@@ -1,6 +1,6 @@
 import { taggedSum } from 'daggy'
 
-export const Players = taggedSum('Players', {
+export const Data = taggedSum('Data', {
   List: ['list'],
   Error: ['msg'],
   Loading: []

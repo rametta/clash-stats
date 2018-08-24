@@ -8,7 +8,7 @@ const CLASH = process.env.CLASH_API_URL
 const TOKEN = process.env.CLASH_TOKEN
 
 /**
- * Run this script with a cron job.
+ * Run this script with a cron job. Every 5 mins
  *
  * This script has 3 steps:
  * 1. Fetch users to update from our API
