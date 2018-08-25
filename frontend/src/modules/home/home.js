@@ -128,7 +128,7 @@ class HomeUnstyled extends Component {
           </Grid>
         </Grid>
       ),
-      Error: msg => <code>{msg}</code>,
+      Error: msg => <code>{msg.toString()}</code>,
       Loading: () => <LinearProgress />
     })
   }

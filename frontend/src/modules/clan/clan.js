@@ -137,7 +137,7 @@ class ClanUnstyled extends Component {
           </Grid>
         </div>
       ),
-      Error: err => <code>{err}</code>,
+      Error: err => <code>{err.toString()}</code>,
       Loading: () => <LinearProgress />
     })
   }
