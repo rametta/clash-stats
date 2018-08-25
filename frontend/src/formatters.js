@@ -2,11 +2,13 @@ import dayjs from 'dayjs'
 import { compose } from 'sanctuary'
 import { Diff } from './unionTypes'
 
+const formatDate = date => dayjs(date).format('MMM D YYYY h:mm A')
+
 const formatPlayer = player => ({
   ...player,
   totalDonationsFormatted: player.totalDonations.toLocaleString(),
   clanCardsCollectedFormatted: player.clanCardsCollected.toLocaleString(),
-  lastUpdate: dayjs(player.lastUpdate).format('MMM D YYYY h:mm A'),
+  lastUpdate: formatDate(player.lastUpdate),
   winRatio: (player.wins / player.losses).toFixed(2),
   winLossDiff: compose(
     diff =>
@@ -27,3 +29,9 @@ export const sortPlayers = sort => players =>
   )
 
 export const formatPlayers = players => players.map(formatPlayer)
+
+export const formatClan = clan => ({
+  ...clan,
+  lastUpdate: formatDate(clan.lastUpdate),
+  donationsFormatted: clan.donationsPerWeek.toLocaleString()
+})

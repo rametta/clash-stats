@@ -1,24 +1,26 @@
-import { formatPlayers, sortPlayers } from './formatters'
-import { Data, Sort } from './unionTypes'
+import { formatPlayers, formatClan, sortPlayers } from './formatters'
+import { Data, Sort, DialogStatus } from './unionTypes'
 
-// Action types
 const types = {
   PLAYERS_RES: 'PLAYERS_RES',
   PLAYERS_ERR: 'PLAYERS_ERR',
   CLAN_RES: 'CLAN_RES',
-  CLAN_ERR: 'CLAN_ERR'
+  CLAN_ERR: 'CLAN_ERR',
+  OPEN_CHANGELOG: 'OPEN_CHANGELOG',
+  CLOSE_CHANGELOG: 'CLOSE_CHANGELOG'
 }
 
-// Actions
 export const receivePlayers = payload => ({ type: types.PLAYERS_RES, payload })
 export const errPlayers = payload => ({ type: types.PLAYERS_ERR, payload })
 export const receiveClan = payload => ({ type: types.CLAN_RES, payload })
 export const errClan = payload => ({ type: types.CLAN_ERR, payload })
+export const openChangelog = () => ({ type: types.OPEN_CHANGELOG })
+export const closeChangelog = () => ({ type: types.CLOSE_CHANGELOG })
 
-// Initial State
 const init = {
   players: Data.Loading,
-  clan: Data.Loading
+  clan: Data.Loading,
+  changelog: DialogStatus.Closed
 }
 
 export default (state = init, { type, payload }) => {
@@ -40,13 +42,25 @@ export default (state = init, { type, payload }) => {
     case types.CLAN_RES:
       return {
         ...state,
-        clan: Data.List(payload)
+        clan: Data.List(formatClan(payload))
       }
 
     case types.CLAN_ERR:
       return {
         ...state,
         clan: Data.Error(payload)
+      }
+
+    case types.OPEN_CHANGELOG:
+      return {
+        ...state,
+        changelog: DialogStatus.Opened
+      }
+
+    case types.CLOSE_CHANGELOG:
+      return {
+        ...state,
+        changelog: DialogStatus.Closed
       }
 
     default:

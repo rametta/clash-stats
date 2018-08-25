@@ -16,3 +16,8 @@ export const Sort = taggedSum('Sort', {
   Asc: ['prop'],
   Desc: ['prop']
 })
+
+export const DialogStatus = taggedSum('DialogStatus', {
+  Opened: [],
+  Closed: []
+})

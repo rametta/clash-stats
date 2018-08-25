@@ -11,7 +11,7 @@ import Paper from '@material-ui/core/Paper'
 import Chip from '@material-ui/core/Chip'
 import LinearProgress from '@material-ui/core/LinearProgress'
 import { getClan } from './../../thunks'
-import { Typography } from '@material-ui/core'
+import Typography from '@material-ui/core/Typography'
 
 const styles = theme => ({
   root: {
@@ -34,15 +34,21 @@ const styles = theme => ({
   },
   chip: {
     textTransform: 'uppercase',
-    fontSize: 10,
-    marginRight: '1em'
+    fontSize: 10
   },
   role: {
     textTransform: 'uppercase'
   },
   topPart: {
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: '1em'
+  },
+  midPart: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between'
   }
 })
 
@@ -61,34 +67,22 @@ class ClanUnstyled extends Component {
           <Grid container spacing={24}>
             <Grid item xs={12}>
               <div className={classes.topPart}>
+                <Typography variant="title">{clan.tag}</Typography>
                 <Chip
                   color="secondary"
                   label={clan.type}
                   className={classes.chip}
                 />
-                <Typography variant="title">{clan.tag}</Typography>
               </div>
 
-              <Typography>{clan.location.name}</Typography>
-              <Typography>
-                {clan.donationsPerWeek} donations per week
-              </Typography>
-              <Paper className={classes.paper}>xs=12</Paper>
-            </Grid>
-            <Grid item xs={6}>
-              <Paper className={classes.paper}>xs=6</Paper>
-            </Grid>
-            <Grid item xs={6}>
-              <Paper className={classes.paper}>xs=6</Paper>
-            </Grid>
-            <Grid item xs={3}>
-              <Paper className={classes.paper}>xs=3</Paper>
-            </Grid>
-            <Grid item xs={3}>
-              <Paper className={classes.paper}>xs=3</Paper>
-            </Grid>
-            <Grid item xs={3}>
-              <Paper className={classes.paper}>xs=3</Paper>
+              <div className={classes.midPart}>
+                <Typography>
+                  {clan.donationsFormatted} donations per week
+                </Typography>
+                <Typography color="textSecondary">
+                  {clan.location.name}
+                </Typography>
+              </div>
             </Grid>
             <Grid item xs={12}>
               <Paper className={classes.tableWrapper}>
@@ -96,7 +90,9 @@ class ClanUnstyled extends Component {
                   <TableHead>
                     <TableRow>
                       <TableCell>Members ({clan.members})</TableCell>
-                      <TableCell>Role</TableCell>
+                      <TableCell className={classes.nowrap} numeric>
+                        Trophies
+                      </TableCell>
                       <TableCell className={classes.nowrap} numeric>
                         Level
                       </TableCell>
@@ -106,12 +102,8 @@ class ClanUnstyled extends Component {
                       <TableCell className={classes.nowrap} numeric>
                         Donations Received
                       </TableCell>
-                      <TableCell className={classes.nowrap} numeric>
-                        Trophies
-                      </TableCell>
-                      <TableCell className={classes.nowrap} numeric>
-                        Arena
-                      </TableCell>
+                      <TableCell>Role</TableCell>
+                      <TableCell className={classes.nowrap}>Arena</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -120,16 +112,17 @@ class ClanUnstyled extends Component {
                         <TableCell component="th" scope="row">
                           {member.name}
                         </TableCell>
-                        <TableCell>
-                          <small className={classes.role}>{member.role}</small>
-                        </TableCell>
+                        <TableCell numeric>{member.trophies}</TableCell>
                         <TableCell numeric>{member.expLevel}</TableCell>
                         <TableCell numeric>{member.donations}</TableCell>
                         <TableCell numeric>
                           {member.donationsReceived}
                         </TableCell>
-                        <TableCell numeric>{member.trophies}</TableCell>
-                        <TableCell numeric className={classes.nowrap}>
+
+                        <TableCell>
+                          <small className={classes.role}>{member.role}</small>
+                        </TableCell>
+                        <TableCell className={classes.nowrap}>
                           {member.arena.name}
                         </TableCell>
                       </TableRow>
@@ -137,7 +130,9 @@ class ClanUnstyled extends Component {
                   </TableBody>
                 </Table>
               </Paper>
-              <Typography color="textSecondary">{clan.lastUpdate}</Typography>
+              <Typography color="textSecondary">
+                Updated: {clan.lastUpdate}
+              </Typography>
             </Grid>
           </Grid>
         </div>

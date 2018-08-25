@@ -47,13 +47,13 @@ class HomeUnstyled extends Component {
                   <TableRow>
                     <TableCell>User</TableCell>
                     <TableCell className={classes.nowrap} numeric>
+                      Trophies
+                    </TableCell>
+                    <TableCell className={classes.nowrap} numeric>
                       Level
                     </TableCell>
                     <TableCell className={classes.nowrap} numeric>
                       War Wins
-                    </TableCell>
-                    <TableCell className={classes.nowrap} numeric>
-                      Trophies
                     </TableCell>
                     <TableCell className={classes.nowrap} numeric>
                       Battles
@@ -91,9 +91,9 @@ class HomeUnstyled extends Component {
                       <TableCell component="th" scope="row">
                         {player.name}
                       </TableCell>
+                      <TableCell numeric>{player.trophies}</TableCell>
                       <TableCell numeric>{player.expLevel}</TableCell>
                       <TableCell numeric>{player.warDayWins}</TableCell>
-                      <TableCell numeric>{player.trophies}</TableCell>
                       <TableCell numeric>{player.battleCount}</TableCell>
                       <TableCell numeric>{player.wins}</TableCell>
                       <TableCell numeric>{player.losses}</TableCell>
