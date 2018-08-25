@@ -50,70 +50,65 @@ const LayoutUnstyled = ({
   changelog,
   closeChangelog,
   openChangelog
-}) =>
-  console.log(changelog) || (
-    <div className={classes.main}>
-      <AppBar color="primary" position="sticky">
+}) => (
+  <div className={classes.main}>
+    <AppBar color="primary" position="sticky">
+      <Toolbar>
+        <Typography className={classes.grow} variant="title" color="inherit">
+          <span role="img" aria-label="trophy emoji">
+            🏆
+          </span>{' '}
+          Day One Crew
+        </Typography>
+        <IconButton aria-label="Info" color="inherit" onClick={openChangelog}>
+          <InfoIcon />
+        </IconButton>
+      </Toolbar>
+    </AppBar>
+    <Dialog
+      fullScreen
+      open={changelog.cata({ Opened: () => true, Closed: () => false })}
+      onClose={closeChangelog}
+      TransitionComponent={Transition}
+    >
+      <AppBar className={classes.appBar}>
         <Toolbar>
-          <Typography className={classes.grow} variant="title" color="inherit">
-            <span role="img" aria-label="trophy emoji">
-              🏆
-            </span>{' '}
-            Day One Crew
+          <Typography variant="title" color="inherit" className={classes.grow}>
+            Information
           </Typography>
-          <IconButton aria-label="Info" color="inherit" onClick={openChangelog}>
-            <InfoIcon />
+          <IconButton
+            color="inherit"
+            onClick={closeChangelog}
+            aria-label="Close"
+          >
+            <CloseIcon />
           </IconButton>
         </Toolbar>
       </AppBar>
-      <Dialog
-        fullScreen
-        open={changelog.cata({ Opened: () => true, Closed: () => false })}
-        onClose={closeChangelog}
-        TransitionComponent={Transition}
-      >
-        <AppBar className={classes.appBar}>
-          <Toolbar>
-            <Typography
-              variant="title"
-              color="inherit"
-              className={classes.grow}
-            >
-              Information
-            </Typography>
-            <IconButton
-              color="inherit"
-              onClick={closeChangelog}
-              aria-label="Close"
-            >
-              <CloseIcon />
-            </IconButton>
-          </Toolbar>
-        </AppBar>
-        <div className={classes.dialogBody}>
-          <Typography>
-            Made with{' '}
-            <span role="img" aria-label="beer emoji">
-              🍺
-            </span>{' '}
-            by Jason
-          </Typography>
+      <div className={classes.dialogBody}>
+        <Typography>
+          Made with{' '}
+          <span role="img" aria-label="beer emoji">
+            🍺
+          </span>{' '}
+          by Jason
+        </Typography>
 
-          <Typography className={classes.changelog} variant="subheading">
-            Changelog
-          </Typography>
-          <div className={classes.changelogBlock}>
-            <Typography variant="caption">Aug 24, 2018</Typography>
-            <Typography>- New information popover</Typography>
-            <Typography>- New home page</Typography>
-            <Typography>- New clan page</Typography>
-          </div>
+        <Typography className={classes.changelog} variant="subheading">
+          Changelog
+        </Typography>
+        <div className={classes.changelogBlock}>
+          <Typography variant="caption">Aug 24, 2018</Typography>
+          <Typography>- New information popover</Typography>
+          <Typography>- New home page</Typography>
+          <Typography>- New clan page</Typography>
         </div>
-      </Dialog>
-      <div className={classes.content}>{children}</div>
-      <BottomNav />
-    </div>
-  )
+      </div>
+    </Dialog>
+    <div className={classes.content}>{children}</div>
+    <BottomNav />
+  </div>
+)
 
 const LayoutStyled = withStyles(styles)(LayoutUnstyled)
 

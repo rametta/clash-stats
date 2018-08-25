@@ -59,7 +59,6 @@ class ClanUnstyled extends Component {
 
   render() {
     const { classes, clan } = this.props
-    console.log(clan)
 
     return clan.cata({
       List: clan => (
