@@ -13,7 +13,7 @@ import { getPlayers } from './../../thunks'
 
 const styles = theme => ({
   root: {
-    margin: theme.spacing.unit * 3,
+    margin: '1em',
     overflowX: 'auto'
   },
   nowrap: {

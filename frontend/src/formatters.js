@@ -1,8 +1,14 @@
 import dayjs from 'dayjs'
 import { compose } from 'sanctuary'
-import { Diff } from './unionTypes'
+import { Diff, Standing } from './unionTypes'
 
-const formatDate = date => dayjs(date).format('MMM D YYYY h:mm A')
+const formatDate = dateStr => dayjs(dateStr).format('MMM D YYYY h:mm A')
+
+const cleanDate = d =>
+  `${d.substr(0, 4)}-${d.substr(4, 2)}-${d.substr(6, 5)}:${d.substr(
+    11,
+    2
+  )}:${d.substr(13, 6)}`
 
 const formatPlayer = player => ({
   ...player,
@@ -35,3 +41,33 @@ export const formatClan = clan => ({
   lastUpdate: formatDate(clan.lastUpdate),
   donationsFormatted: clan.donationsPerWeek.toLocaleString()
 })
+
+const getCrew = warlog => warlog.standings.find(s => s.clan.tag === '#89PPCGU8')
+
+const formatWarlog = warlog =>
+  compose(crew => ({
+    ...warlog,
+    createdDateFormatted: dayjs(cleanDate(warlog.createdDate)).format(
+      'MMM D YYYY'
+    ),
+    lastUpdateFormatted: formatDate(warlog.lastUpdate),
+    crew,
+    trophyChange:
+      crew.trophyChange > 0
+        ? Diff.Positive(crew.trophyChange)
+        : crew.trophyChange < 0
+          ? Diff.Negative(crew.trophyChange)
+          : Diff.Neutral(crew.trophyChange),
+    standing:
+      warlog.standing === '1st'
+        ? Standing.First(warlog.standing)
+        : warlog.standing === '2nd'
+          ? Standing.Second(warlog.standing)
+          : warlog.standing === '3rd'
+            ? Standing.Third(warlog.standing)
+            : warlog.standing === '4th'
+              ? Standing.Fourth(warlog.standing)
+              : Standing.Fifth(warlog.standing)
+  }))(getCrew)(warlog)
+
+export const formatWarlogs = warlogs => warlogs.map(formatWarlog)

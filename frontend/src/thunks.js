@@ -1,5 +1,12 @@
 import axios from 'axios'
-import { receivePlayers, errPlayers, receiveClan, errClan } from './redux'
+import {
+  receivePlayers,
+  errPlayers,
+  receiveClan,
+  errClan,
+  receiveWarlog,
+  errWarlog
+} from './redux'
 
 export const getPlayers = () => dispatch =>
   axios
@@ -14,3 +21,10 @@ export const getClan = () => dispatch =>
     .then(({ data }) => data)
     .then(clan => dispatch(receiveClan(clan)))
     .catch(err => dispatch(errClan(err)))
+
+export const getWarlog = () => dispatch =>
+  axios
+    .get('/api/warlog')
+    .then(({ data }) => data)
+    .then(warlog => dispatch(receiveWarlog(warlog)))
+    .catch(err => dispatch(errWarlog(err)))

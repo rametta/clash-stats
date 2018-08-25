@@ -7,7 +7,7 @@ import indigo from '@material-ui/core/colors/indigo'
 
 import { Home } from './modules/home/home'
 import { Clan } from './modules/clan/clan'
-import { War } from './modules/war/war'
+import { Warlog } from './modules/warlog/warlog'
 import { Layout } from './modules/layout/layout'
 
 const theme = createMuiTheme({
@@ -26,7 +26,7 @@ export const App = () => (
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/clan" component={Clan} />
-          <Route path="/war" component={War} />
+          <Route path="/warlog" component={Warlog} />
         </Switch>
       </Layout>
     </MuiThemeProvider>

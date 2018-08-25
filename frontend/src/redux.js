@@ -1,4 +1,9 @@
-import { formatPlayers, formatClan, sortPlayers } from './formatters'
+import {
+  formatPlayers,
+  formatClan,
+  formatWarlogs,
+  sortPlayers
+} from './formatters'
 import { Data, Sort, DialogStatus } from './unionTypes'
 
 const types = {
@@ -6,6 +11,8 @@ const types = {
   PLAYERS_ERR: 'PLAYERS_ERR',
   CLAN_RES: 'CLAN_RES',
   CLAN_ERR: 'CLAN_ERR',
+  WARLOG_RES: 'WARLOG_RES',
+  WARLOG_ERR: 'WARLOG_ERR',
   OPEN_CHANGELOG: 'OPEN_CHANGELOG',
   CLOSE_CHANGELOG: 'CLOSE_CHANGELOG'
 }
@@ -14,12 +21,15 @@ export const receivePlayers = payload => ({ type: types.PLAYERS_RES, payload })
 export const errPlayers = payload => ({ type: types.PLAYERS_ERR, payload })
 export const receiveClan = payload => ({ type: types.CLAN_RES, payload })
 export const errClan = payload => ({ type: types.CLAN_ERR, payload })
+export const receiveWarlog = payload => ({ type: types.WARLOG_RES, payload })
+export const errWarlog = payload => ({ type: types.WARLOG_ERR, payload })
 export const openChangelog = () => ({ type: types.OPEN_CHANGELOG })
 export const closeChangelog = () => ({ type: types.CLOSE_CHANGELOG })
 
 const init = {
   players: Data.Loading,
   clan: Data.Loading,
+  warlog: Data.Loading,
   changelog: DialogStatus.Closed
 }
 
@@ -49,6 +59,18 @@ export default (state = init, { type, payload }) => {
       return {
         ...state,
         clan: Data.Error(payload)
+      }
+
+    case types.WARLOG_RES:
+      return {
+        ...state,
+        warlog: Data.List(formatWarlogs(payload))
+      }
+
+    case types.WARLOG_ERR:
+      return {
+        ...state,
+        warlog: Data.Error(payload)
       }
 
     case types.OPEN_CHANGELOG:

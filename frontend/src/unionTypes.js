@@ -21,3 +21,11 @@ export const DialogStatus = taggedSum('DialogStatus', {
   Opened: [],
   Closed: []
 })
+
+export const Standing = taggedSum('Standing', {
+  First: ['standing'],
+  Second: ['standing'],
+  Third: ['standing'],
+  Fourth: ['standing'],
+  Fifth: ['standing']
+})

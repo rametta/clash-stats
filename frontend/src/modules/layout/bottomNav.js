@@ -20,8 +20,8 @@ const SimpleBottomNavigation = ({ classes, location: { pathname } }) => (
   <BottomNavigation value={pathname} showLabels className={classes.root}>
     <BottomNavigationAction
       component={Link}
-      to="/war"
-      value="/war"
+      to="/warlog"
+      value="/warlog"
       label="War Log"
       icon={<GameIcon />}
     />

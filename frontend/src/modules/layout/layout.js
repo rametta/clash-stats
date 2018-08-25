@@ -21,7 +21,7 @@ const styles = {
   },
   content: {
     flex: 1,
-    marginBottom: '75px'
+    padding: '56px 0'
   },
   grow: {
     flexGrow: 1
@@ -52,7 +52,7 @@ const LayoutUnstyled = ({
   openChangelog
 }) => (
   <div className={classes.main}>
-    <AppBar color="primary" position="sticky">
+    <AppBar color="primary" position="fixed">
       <Toolbar>
         <Typography className={classes.grow} variant="title" color="inherit">
           <span role="img" aria-label="trophy emoji">
