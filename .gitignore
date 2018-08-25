@@ -5,7 +5,8 @@ node_modules
 coverage
 
 # production
-build
+backend/build
+cron/build
 
 # misc
 .DS_Store
