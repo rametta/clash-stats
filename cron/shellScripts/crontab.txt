@@ -1,0 +1,4 @@
+*/5 * * * * ~/clash-stats/cron/shellScripts/clan.sh
+*/5 * * * * ~/clash-stats/cron/shellScripts/players.sh
+*/5 * * * * ~/clash-stats/cron/shellScripts/warlog.sh
+*/10 * * * * ~/clash-stats/cron/shellScripts/playerPurge.sh
