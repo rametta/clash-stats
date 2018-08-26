@@ -13,23 +13,28 @@ const types = {
   CLAN_ERR: 'CLAN_ERR',
   WARLOG_RES: 'WARLOG_RES',
   WARLOG_ERR: 'WARLOG_ERR',
+  WAR_RES: 'WAR_RES',
+  WAR_ERR: 'WAR_ERR',
   OPEN_CHANGELOG: 'OPEN_CHANGELOG',
   CLOSE_CHANGELOG: 'CLOSE_CHANGELOG'
 }
 
+export const openChangelog = () => ({ type: types.OPEN_CHANGELOG })
+export const closeChangelog = () => ({ type: types.CLOSE_CHANGELOG })
 export const receivePlayers = payload => ({ type: types.PLAYERS_RES, payload })
 export const errPlayers = payload => ({ type: types.PLAYERS_ERR, payload })
 export const receiveClan = payload => ({ type: types.CLAN_RES, payload })
 export const errClan = payload => ({ type: types.CLAN_ERR, payload })
 export const receiveWarlog = payload => ({ type: types.WARLOG_RES, payload })
 export const errWarlog = payload => ({ type: types.WARLOG_ERR, payload })
-export const openChangelog = () => ({ type: types.OPEN_CHANGELOG })
-export const closeChangelog = () => ({ type: types.CLOSE_CHANGELOG })
+export const receiveWar = payload => ({ type: types.WAR_RES, payload })
+export const errWar = payload => ({ type: types.WAR_ERR, payload })
 
 const init = {
   players: Data.Loading,
   clan: Data.Loading,
   warlog: Data.Loading,
+  war: Data.Loading,
   changelog: DialogStatus.Closed
 }
 
@@ -71,6 +76,18 @@ export default (state = init, { type, payload }) => {
       return {
         ...state,
         warlog: Data.Error(payload)
+      }
+
+    case types.WAR_RES:
+      return {
+        ...state,
+        war: Data.List(payload)
+      }
+
+    case types.WAR_ERR:
+      return {
+        ...state,
+        war: Data.Error(payload)
       }
 
     case types.OPEN_CHANGELOG:

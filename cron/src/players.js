@@ -18,7 +18,9 @@ const TOKEN = process.env.CLASH_TOKEN
 
 // players :: Future Array Player
 const players = () =>
-  tryP(() => axios.get(`${API}/api/players`)).map(({ data }) => data)
+  tryP(() => axios.get(`${API}/api/clans`)).map(
+    ({ data }) => data[0].memberList
+  )
 
 // fetchPlayerUpdates :: Player -> Future Player
 const fetchPlayerUpdates = player =>
@@ -26,11 +28,13 @@ const fetchPlayerUpdates = player =>
     axios.get(`${CLASH}/v1/players/${encodeURIComponent(player.tag)}`, {
       headers: { Authorization: `Bearer  ${TOKEN}` }
     })
-  ).map(({ data }) => Object.assign({}, data, { _id: player._id }))
+  ).map(({ data }) => data)
 
 // updatePlayer :: Player -> Future Player
 const updatePlayer = player =>
-  tryP(() => axios.put(`${API}/api/player`, { player })).map(({ data }) => data)
+  tryP(() => axios.post(`${API}/api/player`, { player })).map(
+    ({ data }) => data
+  )
 
 // updateTime :: Player -> Player
 const updateTime = player =>

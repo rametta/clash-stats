@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
 import { compose } from 'sanctuary'
-import { Diff, Standing } from './unionTypes'
+import { Diff, Standing, Medal } from './unionTypes'
 
 const formatDate = dateStr => dayjs(dateStr).format('MMM D YYYY h:mm A')
 
@@ -44,7 +44,14 @@ export const formatClan = clan => ({
 
 const getCrew = warlog => warlog.standings.find(s => s.clan.tag === '#89PPCGU8')
 
-const formatWarlog = warlog =>
+const trophyChange = trophyChange =>
+  trophyChange > 0
+    ? Diff.Positive(trophyChange)
+    : trophyChange < 0
+      ? Diff.Negative(trophyChange)
+      : Diff.Neutral(trophyChange)
+
+export const formatWar = warlog =>
   compose(crew => ({
     ...warlog,
     createdDateFormatted: dayjs(cleanDate(warlog.createdDate)).format(
@@ -52,12 +59,7 @@ const formatWarlog = warlog =>
     ),
     lastUpdateFormatted: formatDate(warlog.lastUpdate),
     crew,
-    trophyChange:
-      crew.trophyChange > 0
-        ? Diff.Positive(crew.trophyChange)
-        : crew.trophyChange < 0
-          ? Diff.Negative(crew.trophyChange)
-          : Diff.Neutral(crew.trophyChange),
+    trophyChange: trophyChange(crew.trophyChange),
     standing:
       warlog.standing === '1st'
         ? Standing.First(warlog.standing)
@@ -67,7 +69,18 @@ const formatWarlog = warlog =>
             ? Standing.Third(warlog.standing)
             : warlog.standing === '4th'
               ? Standing.Fourth(warlog.standing)
-              : Standing.Fifth(warlog.standing)
+              : Standing.Fifth(warlog.standing),
+    standings: warlog.standings.map(standing => ({
+      ...standing,
+      selected: standing.clan.tag === crew.clan.tag,
+      trophyChange: trophyChange(standing.trophyChange)
+    })),
+    participants: warlog.participants
+      .sort((x, y) => y.wins - x.wins)
+      .map(p => ({
+        ...p,
+        medal: p.wins === 2 ? Medal.Two : p.wins === 1 ? Medal.One : Medal.Zero
+      }))
   }))(getCrew)(warlog)
 
-export const formatWarlogs = warlogs => warlogs.map(formatWarlog)
+export const formatWarlogs = warlogs => warlogs.map(formatWar)

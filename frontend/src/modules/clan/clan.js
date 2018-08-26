@@ -10,8 +10,10 @@ import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
 import Chip from '@material-ui/core/Chip'
 import LinearProgress from '@material-ui/core/LinearProgress'
-import { getClan } from './../../thunks'
 import Typography from '@material-ui/core/Typography'
+
+import { ErrorCard } from '../reusable/errorCard'
+import { getClan } from './../../thunks'
 
 const styles = theme => ({
   root: {
@@ -63,8 +65,8 @@ class ClanUnstyled extends Component {
     return clan.cata({
       List: clan => (
         <div className={classes.root}>
-          <Grid container spacing={24}>
-            <Grid item xs={12}>
+          <Grid container spacing={24} justify="center">
+            <Grid item xs={12} sm={12} md={10} lg={10} xl={8}>
               <div className={classes.topPart}>
                 <Typography variant="title">{clan.tag}</Typography>
                 <Chip
@@ -83,8 +85,8 @@ class ClanUnstyled extends Component {
                 </Typography>
               </div>
             </Grid>
-            <Grid item xs={12}>
-              <Paper className={classes.tableWrapper}>
+            <Grid item xs={12} sm={12} md={10} lg={10} xl={8}>
+              <Paper elevation={8} className={classes.tableWrapper}>
                 <Table className={classes.table}>
                   <TableHead>
                     <TableRow>
@@ -136,7 +138,7 @@ class ClanUnstyled extends Component {
           </Grid>
         </div>
       ),
-      Error: err => <code>{err.toString()}</code>,
+      Error: msg => <ErrorCard msg={msg} />,
       Loading: () => <LinearProgress />
     })
   }

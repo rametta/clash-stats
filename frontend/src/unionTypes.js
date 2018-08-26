@@ -29,3 +29,9 @@ export const Standing = taggedSum('Standing', {
   Fourth: ['standing'],
   Fifth: ['standing']
 })
+
+export const Medal = taggedSum('Medal', {
+  Zero: [],
+  One: [],
+  Two: []
+})

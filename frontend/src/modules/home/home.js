@@ -9,9 +9,11 @@ import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
 import LinearProgress from '@material-ui/core/LinearProgress'
+
+import { ErrorCard } from '../reusable/errorCard'
 import { getPlayers } from './../../thunks'
 
-const styles = theme => ({
+const styles = {
   root: {
     margin: '1em',
     overflowX: 'auto'
@@ -28,7 +30,7 @@ const styles = theme => ({
   red: {
     color: '#e82e2e'
   }
-})
+}
 
 class HomeUnstyled extends Component {
   componentDidMount() {
@@ -41,7 +43,7 @@ class HomeUnstyled extends Component {
       List: list => (
         <Grid container justify="center">
           <Grid item xs={12} sm={12} md={10} lg={10} xl={8}>
-            <Paper className={classes.root}>
+            <Paper elevation={8} className={classes.root}>
               <Table className={classes.table}>
                 <TableHead>
                   <TableRow>
@@ -128,7 +130,7 @@ class HomeUnstyled extends Component {
           </Grid>
         </Grid>
       ),
-      Error: msg => <code>{msg.toString()}</code>,
+      Error: msg => <ErrorCard msg={msg} />,
       Loading: () => <LinearProgress />
     })
   }

@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
@@ -13,7 +14,7 @@ import Slide from '@material-ui/core/Slide'
 import { BottomNav } from './bottomNav'
 import { openChangelog, closeChangelog } from './../../redux'
 
-const styles = {
+const styles = theme => ({
   main: {
     height: '100%',
     display: 'flex',
@@ -21,7 +22,16 @@ const styles = {
   },
   content: {
     flex: 1,
-    padding: '56px 0'
+    [theme.breakpoints.down('sm')]: {
+      padding: '56px 0'
+    },
+    [theme.breakpoints.up('sm')]: {
+      padding: '64px 0 56px 0'
+    }
+  },
+  mainTitle: {
+    flexGrow: 1,
+    textDecoration: 'none'
   },
   grow: {
     flexGrow: 1
@@ -40,7 +50,7 @@ const styles = {
     marginTop: '1em',
     marginBottom: '1em'
   }
-}
+})
 
 const Transition = props => <Slide direction="up" {...props} />
 
@@ -54,7 +64,13 @@ const LayoutUnstyled = ({
   <div className={classes.main}>
     <AppBar color="primary" position="fixed">
       <Toolbar>
-        <Typography className={classes.grow} variant="title" color="inherit">
+        <Typography
+          component={Link}
+          to="/"
+          className={classes.mainTitle}
+          variant="title"
+          color="inherit"
+        >
           <span role="img" aria-label="trophy emoji">
             🏆
           </span>{' '}
@@ -97,6 +113,17 @@ const LayoutUnstyled = ({
         <Typography className={classes.changelog} variant="subheading">
           Changelog
         </Typography>
+
+        <div className={classes.changelogBlock}>
+          <Typography variant="caption">Aug 26, 2018</Typography>
+          <Typography>- New single war page</Typography>
+        </div>
+
+        <div className={classes.changelogBlock}>
+          <Typography variant="caption">Aug 25, 2018</Typography>
+          <Typography>- New warlog page</Typography>
+        </div>
+
         <div className={classes.changelogBlock}>
           <Typography variant="caption">Aug 24, 2018</Typography>
           <Typography>- New information popover</Typography>

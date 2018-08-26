@@ -20,6 +20,12 @@ router.post('/api/warlog', (req, res, next) =>
     .catch(err => res.status(400).send(err))
 )
 
+router.get('/api/war/:date', (req, res, next) =>
+  Warlog.findOne({ createdDate: req.params.date })
+    .then(war => res.send(war))
+    .catch(err => res.status(400).send(err))
+)
+
 router.delete('/api/warlog', (req, res, next) =>
   Warlog.deleteOne({ _id: req.body.id })
     .then(suc => res.send({ msg: `Warlog ${req.body.id} deleted` }))
