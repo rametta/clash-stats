@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import LinearProgress from '@material-ui/core/LinearProgress'
+import Fade from '@material-ui/core/Fade'
 
 import { getWarlog } from '../../thunks'
 import { ErrorCard } from '../reusable/errorCard'
@@ -24,15 +25,17 @@ class WarUnstyled extends Component {
 
     return warlog.cata({
       List: warlogs => (
-        <div className={classes.root}>
-          <Grid container justify="center">
-            <Grid item xs={12} sm={12} md={8} lg={8} xl={6}>
-              {warlogs.map(war => (
-                <WarCard key={war.createdDate} war={war} />
-              ))}
+        <Fade in={true}>
+          <div className={classes.root}>
+            <Grid container justify="center">
+              <Grid item xs={12} sm={12} md={8} lg={8} xl={6}>
+                {warlogs.map(war => (
+                  <WarCard key={war.createdDate} war={war} />
+                ))}
+              </Grid>
             </Grid>
-          </Grid>
-        </div>
+          </div>
+        </Fade>
       ),
       Loading: () => <LinearProgress />,
       Error: msg => <ErrorCard msg={msg} />

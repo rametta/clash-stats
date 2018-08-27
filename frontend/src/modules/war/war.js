@@ -10,6 +10,7 @@ import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid'
 import LinearProgress from '@material-ui/core/LinearProgress'
+import Fade from '@material-ui/core/Fade'
 
 import { getWar } from '../../thunks'
 import { ErrorCard } from '../reusable/errorCard'
@@ -47,124 +48,131 @@ class WarUnstyled extends Component {
 
     return war.cata({
       List: w => (
-        <div className={classes.root}>
-          <Grid container justify="center">
-            <Grid item xs={12} sm={12} md={8} lg={8} xl={6}>
-              <WarCard war={w} />
+        <Fade in={true}>
+          <div className={classes.root}>
+            <Grid container justify="center">
+              <Grid item xs={12} sm={12} md={8} lg={8} xl={6}>
+                <WarCard war={w} />
 
-              <Paper elevation={8} className={classes.tablePaper}>
-                <Table className={classes.table}>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell className={classes.nowrap}>Clan</TableCell>
-                      <TableCell className={classes.nowrap} numeric>
-                        Wins
-                      </TableCell>
-                      <TableCell className={classes.nowrap} numeric>
-                        Battles
-                      </TableCell>
-                      <TableCell className={classes.nowrap} numeric>
-                        Crowns
-                      </TableCell>
-                      <TableCell className={classes.nowrap} numeric>
-                        Trophies
-                      </TableCell>
-                      <TableCell className={classes.nowrap} numeric>
-                        Score
-                      </TableCell>
-                      <TableCell className={classes.nowrap}>Tag</TableCell>
-                    </TableRow>
-                  </TableHead>
-
-                  <TableBody>
-                    {w.standings.map(standing => (
-                      <TableRow selected={standing.selected} key={standing._id}>
-                        <TableCell
-                          className={classes.nowrap}
-                          component="th"
-                          scope="row"
-                        >
-                          {standing.clan.name}
+                <Paper elevation={8} className={classes.tablePaper}>
+                  <Table className={classes.table}>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell className={classes.nowrap}>Clan</TableCell>
+                        <TableCell className={classes.nowrap} numeric>
+                          Wins
                         </TableCell>
-                        <TableCell numeric>{standing.clan.wins}</TableCell>
-                        <TableCell numeric>
-                          {standing.clan.battlesPlayed}
+                        <TableCell className={classes.nowrap} numeric>
+                          Battles
                         </TableCell>
-                        <TableCell numeric>{standing.clan.crowns}</TableCell>
-                        <TableCell numeric>
-                          {standing.trophyChange.cata({
-                            Positive: diff => (
-                              <span className={classes.green}>+{diff}</span>
-                            ),
-                            Negative: diff => (
-                              <span className={classes.red}>{diff}</span>
-                            ),
-                            Neutral: diff => <span>{diff}</span>
-                          })}
+                        <TableCell className={classes.nowrap} numeric>
+                          Crowns
                         </TableCell>
-                        <TableCell numeric>{standing.clan.clanScore}</TableCell>
-                        <TableCell>{standing.clan.tag}</TableCell>
+                        <TableCell className={classes.nowrap} numeric>
+                          Trophies
+                        </TableCell>
+                        <TableCell className={classes.nowrap} numeric>
+                          Score
+                        </TableCell>
+                        <TableCell className={classes.nowrap}>Tag</TableCell>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </Paper>
+                    </TableHead>
 
-              <Paper elevation={8} className={classes.tablePaperPlayers}>
-                <Table className={classes.table}>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell className={classes.nowrap}>
-                        Participant
-                      </TableCell>
-                      <TableCell className={classes.nowrap} numeric>
-                        Battles
-                      </TableCell>
-                      <TableCell className={classes.nowrap} numeric>
-                        Cards Earned
-                      </TableCell>
-                      <TableCell className={classes.nowrap}>Tag</TableCell>
-                    </TableRow>
-                  </TableHead>
-
-                  <TableBody>
-                    {w.participants.map(player => (
-                      <TableRow key={player._id}>
-                        <TableCell
-                          className={classes.nowrap}
-                          component="th"
-                          scope="row"
+                    <TableBody>
+                      {w.standings.map(standing => (
+                        <TableRow
+                          selected={standing.selected}
+                          key={standing._id}
                         >
-                          {player.medal.cata({
-                            Zero: () => (
-                              <span role="img" aria-label="cross emoji">
-                                ❌
-                              </span>
-                            ),
-                            One: () => (
-                              <span role="img" aria-label="medal emoji">
-                                🎖
-                              </span>
-                            ),
-                            Two: () => (
-                              <span role="img" aria-label="2 medal emoji">
-                                🎖🎖
-                              </span>
-                            )
-                          })}{' '}
-                          {player.name}
+                          <TableCell
+                            className={classes.nowrap}
+                            component="th"
+                            scope="row"
+                          >
+                            {standing.clan.name}
+                          </TableCell>
+                          <TableCell numeric>{standing.clan.wins}</TableCell>
+                          <TableCell numeric>
+                            {standing.clan.battlesPlayed}
+                          </TableCell>
+                          <TableCell numeric>{standing.clan.crowns}</TableCell>
+                          <TableCell numeric>
+                            {standing.trophyChange.cata({
+                              Positive: diff => (
+                                <span className={classes.green}>+{diff}</span>
+                              ),
+                              Negative: diff => (
+                                <span className={classes.red}>{diff}</span>
+                              ),
+                              Neutral: diff => <span>{diff}</span>
+                            })}
+                          </TableCell>
+                          <TableCell numeric>
+                            {standing.clan.clanScore}
+                          </TableCell>
+                          <TableCell>{standing.clan.tag}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </Paper>
+
+                <Paper elevation={8} className={classes.tablePaperPlayers}>
+                  <Table className={classes.table}>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell className={classes.nowrap}>
+                          Participant
                         </TableCell>
-                        <TableCell numeric>{player.battlesPlayed}</TableCell>
-                        <TableCell numeric>{player.cardsEarned}</TableCell>
-                        <TableCell> {player.tag}</TableCell>
+                        <TableCell className={classes.nowrap} numeric>
+                          Battles
+                        </TableCell>
+                        <TableCell className={classes.nowrap} numeric>
+                          Cards Earned
+                        </TableCell>
+                        <TableCell className={classes.nowrap}>Tag</TableCell>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </Paper>
+                    </TableHead>
+
+                    <TableBody>
+                      {w.participants.map(player => (
+                        <TableRow key={player._id}>
+                          <TableCell
+                            className={classes.nowrap}
+                            component="th"
+                            scope="row"
+                          >
+                            {player.medal.cata({
+                              Zero: () => (
+                                <span role="img" aria-label="cross emoji">
+                                  ❌
+                                </span>
+                              ),
+                              One: () => (
+                                <span role="img" aria-label="medal emoji">
+                                  🎖
+                                </span>
+                              ),
+                              Two: () => (
+                                <span role="img" aria-label="2 medal emoji">
+                                  🎖🎖
+                                </span>
+                              )
+                            })}{' '}
+                            {player.name}
+                          </TableCell>
+                          <TableCell numeric>{player.battlesPlayed}</TableCell>
+                          <TableCell numeric>{player.cardsEarned}</TableCell>
+                          <TableCell> {player.tag}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </Paper>
+              </Grid>
             </Grid>
-          </Grid>
-        </div>
+          </div>
+        </Fade>
       ),
       Loading: () => <LinearProgress />,
       Error: msg => <ErrorCard msg={msg} />

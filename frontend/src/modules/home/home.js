@@ -9,6 +9,7 @@ import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
 import LinearProgress from '@material-ui/core/LinearProgress'
+import Fade from '@material-ui/core/Fade'
 
 import { ErrorCard } from '../reusable/errorCard'
 import { getPlayers } from './../../thunks'
@@ -41,94 +42,96 @@ class HomeUnstyled extends Component {
     const { classes, players } = this.props
     return players.cata({
       List: list => (
-        <Grid container justify="center">
-          <Grid item xs={12} sm={12} md={10} lg={10} xl={8}>
-            <Paper elevation={8} className={classes.root}>
-              <Table className={classes.table}>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>User</TableCell>
-                    <TableCell className={classes.nowrap} numeric>
-                      Trophies
-                    </TableCell>
-                    <TableCell className={classes.nowrap} numeric>
-                      Level
-                    </TableCell>
-                    <TableCell className={classes.nowrap} numeric>
-                      War Wins
-                    </TableCell>
-                    <TableCell className={classes.nowrap} numeric>
-                      Battles
-                    </TableCell>
-                    <TableCell className={classes.nowrap} numeric>
-                      Wins
-                    </TableCell>
-                    <TableCell className={classes.nowrap} numeric>
-                      Losses
-                    </TableCell>
-                    <TableCell className={classes.nowrap} numeric>
-                      W/L Ratio
-                    </TableCell>
-                    <TableCell className={classes.nowrap} numeric>
-                      W/L Diff
-                    </TableCell>
-                    <TableCell className={classes.nowrap} numeric>
-                      Three Crowns
-                    </TableCell>
-                    <TableCell className={classes.nowrap} numeric>
-                      Challenge Max Wins
-                    </TableCell>
-                    <TableCell className={classes.nowrap} numeric>
-                      Donations
-                    </TableCell>
-                    <TableCell className={classes.nowrap} numeric>
-                      Clan Cards Collected
-                    </TableCell>
-                    <TableCell>Updated</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {list.map(player => (
-                    <TableRow key={player.tag}>
-                      <TableCell component="th" scope="row">
-                        {player.name}
+        <Fade in={true}>
+          <Grid container justify="center">
+            <Grid item xs={12} sm={12} md={10} lg={10} xl={8}>
+              <Paper elevation={8} className={classes.root}>
+                <Table className={classes.table}>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>User</TableCell>
+                      <TableCell className={classes.nowrap} numeric>
+                        Trophies
                       </TableCell>
-                      <TableCell numeric>{player.trophies}</TableCell>
-                      <TableCell numeric>{player.expLevel}</TableCell>
-                      <TableCell numeric>{player.warDayWins}</TableCell>
-                      <TableCell numeric>{player.battleCount}</TableCell>
-                      <TableCell numeric>{player.wins}</TableCell>
-                      <TableCell numeric>{player.losses}</TableCell>
-                      <TableCell numeric>{player.winRatio}</TableCell>
-                      <TableCell numeric>
-                        {player.winLossDiff.cata({
-                          Positive: diff => (
-                            <span className={classes.green}>+{diff}</span>
-                          ),
-                          Negative: diff => (
-                            <span className={classes.red}>-{diff}</span>
-                          ),
-                          Neutral: diff => <span>{diff}</span>
-                        })}
+                      <TableCell className={classes.nowrap} numeric>
+                        Level
                       </TableCell>
-                      <TableCell numeric>{player.threeCrownWins}</TableCell>
-                      <TableCell numeric>{player.challengeMaxWins}</TableCell>
-                      <TableCell numeric>
-                        {player.totalDonationsFormatted}
+                      <TableCell className={classes.nowrap} numeric>
+                        War Wins
                       </TableCell>
-                      <TableCell numeric>
-                        {player.clanCardsCollectedFormatted}
+                      <TableCell className={classes.nowrap} numeric>
+                        Battles
                       </TableCell>
-                      <TableCell className={classes.nowrap}>
-                        {player.lastUpdate}
+                      <TableCell className={classes.nowrap} numeric>
+                        Wins
                       </TableCell>
+                      <TableCell className={classes.nowrap} numeric>
+                        Losses
+                      </TableCell>
+                      <TableCell className={classes.nowrap} numeric>
+                        W/L Ratio
+                      </TableCell>
+                      <TableCell className={classes.nowrap} numeric>
+                        W/L Diff
+                      </TableCell>
+                      <TableCell className={classes.nowrap} numeric>
+                        Three Crowns
+                      </TableCell>
+                      <TableCell className={classes.nowrap} numeric>
+                        Challenge Max Wins
+                      </TableCell>
+                      <TableCell className={classes.nowrap} numeric>
+                        Donations
+                      </TableCell>
+                      <TableCell className={classes.nowrap} numeric>
+                        Clan Cards Collected
+                      </TableCell>
+                      <TableCell>Updated</TableCell>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </Paper>
+                  </TableHead>
+                  <TableBody>
+                    {list.map(player => (
+                      <TableRow key={player.tag}>
+                        <TableCell component="th" scope="row">
+                          {player.name}
+                        </TableCell>
+                        <TableCell numeric>{player.trophies}</TableCell>
+                        <TableCell numeric>{player.expLevel}</TableCell>
+                        <TableCell numeric>{player.warDayWins}</TableCell>
+                        <TableCell numeric>{player.battleCount}</TableCell>
+                        <TableCell numeric>{player.wins}</TableCell>
+                        <TableCell numeric>{player.losses}</TableCell>
+                        <TableCell numeric>{player.winRatio}</TableCell>
+                        <TableCell numeric>
+                          {player.winLossDiff.cata({
+                            Positive: diff => (
+                              <span className={classes.green}>+{diff}</span>
+                            ),
+                            Negative: diff => (
+                              <span className={classes.red}>-{diff}</span>
+                            ),
+                            Neutral: diff => <span>{diff}</span>
+                          })}
+                        </TableCell>
+                        <TableCell numeric>{player.threeCrownWins}</TableCell>
+                        <TableCell numeric>{player.challengeMaxWins}</TableCell>
+                        <TableCell numeric>
+                          {player.totalDonationsFormatted}
+                        </TableCell>
+                        <TableCell numeric>
+                          {player.clanCardsCollectedFormatted}
+                        </TableCell>
+                        <TableCell className={classes.nowrap}>
+                          {player.lastUpdate}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </Paper>
+            </Grid>
           </Grid>
-        </Grid>
+        </Fade>
       ),
       Error: msg => <ErrorCard msg={msg} />,
       Loading: () => <LinearProgress />

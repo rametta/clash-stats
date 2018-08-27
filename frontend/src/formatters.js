@@ -16,14 +16,7 @@ const formatPlayer = player => ({
   clanCardsCollectedFormatted: player.clanCardsCollected.toLocaleString(),
   lastUpdate: formatDate(player.lastUpdate),
   winRatio: (player.wins / player.losses).toFixed(2),
-  winLossDiff: compose(
-    diff =>
-      diff > 0
-        ? Diff.Positive(diff)
-        : diff < 0
-          ? Diff.Negative(diff)
-          : Diff.Neutral(diff)
-  )(p => p.wins - p.losses)(player)
+  winLossDiff: compose(getDiff)(p => p.wins - p.losses)(player)
 })
 
 export const sortPlayers = sort => players =>
@@ -44,12 +37,23 @@ export const formatClan = clan => ({
 
 const getCrew = warlog => warlog.standings.find(s => s.clan.tag === '#89PPCGU8')
 
-const trophyChange = trophyChange =>
+const getDiff = trophyChange =>
   trophyChange > 0
     ? Diff.Positive(trophyChange)
     : trophyChange < 0
       ? Diff.Negative(trophyChange)
       : Diff.Neutral(trophyChange)
+
+const standing = standing =>
+  standing === '1st'
+    ? Standing.First(standing)
+    : standing === '2nd'
+      ? Standing.Second(standing)
+      : standing === '3rd'
+        ? Standing.Third(standing)
+        : standing === '4th'
+          ? Standing.Fourth(standing)
+          : Standing.Fifth(standing)
 
 export const formatWar = warlog =>
   compose(crew => ({
@@ -59,21 +63,12 @@ export const formatWar = warlog =>
     ),
     lastUpdateFormatted: formatDate(warlog.lastUpdate),
     crew,
-    trophyChange: trophyChange(crew.trophyChange),
-    standing:
-      warlog.standing === '1st'
-        ? Standing.First(warlog.standing)
-        : warlog.standing === '2nd'
-          ? Standing.Second(warlog.standing)
-          : warlog.standing === '3rd'
-            ? Standing.Third(warlog.standing)
-            : warlog.standing === '4th'
-              ? Standing.Fourth(warlog.standing)
-              : Standing.Fifth(warlog.standing),
+    trophyChange: getDiff(crew.trophyChange),
+    standing: standing(warlog.standing),
     standings: warlog.standings.map(standing => ({
       ...standing,
       selected: standing.clan.tag === crew.clan.tag,
-      trophyChange: trophyChange(standing.trophyChange)
+      trophyChange: getDiff(standing.trophyChange)
     })),
     participants: warlog.participants
       .sort((x, y) => y.wins - x.wins)
