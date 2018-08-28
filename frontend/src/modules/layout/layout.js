@@ -115,6 +115,12 @@ const LayoutUnstyled = ({
         </Typography>
 
         <div className={classes.changelogBlock}>
+          <Typography variant="caption">Aug 28, 2018</Typography>
+          <Typography>- Tables now sortable</Typography>
+          <Typography>- Page transitions</Typography>
+        </div>
+
+        <div className={classes.changelogBlock}>
           <Typography variant="caption">Aug 26, 2018</Typography>
           <Typography>- New single war page</Typography>
         </div>

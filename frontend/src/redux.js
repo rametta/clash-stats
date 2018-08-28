@@ -1,16 +1,13 @@
-import {
-  formatPlayers,
-  formatClan,
-  formatWarlogs,
-  sortPlayers
-} from './formatters'
-import { Data, Sort, DialogStatus } from './unionTypes'
+import { formatPlayers, formatClan, formatWarlogs, sort } from './formatters'
+import { Data, DialogStatus } from './unionTypes'
 
 const types = {
   PLAYERS_RES: 'PLAYERS_RES',
   PLAYERS_ERR: 'PLAYERS_ERR',
+  PLAYERS_SORT: 'PLAYERS_SORT',
   CLAN_RES: 'CLAN_RES',
   CLAN_ERR: 'CLAN_ERR',
+  CLAN_MEMBER_SORT: 'CLAN_MEMBER_SORT',
   WARLOG_RES: 'WARLOG_RES',
   WARLOG_ERR: 'WARLOG_ERR',
   WAR_RES: 'WAR_RES',
@@ -23,8 +20,13 @@ export const openChangelog = () => ({ type: types.OPEN_CHANGELOG })
 export const closeChangelog = () => ({ type: types.CLOSE_CHANGELOG })
 export const receivePlayers = payload => ({ type: types.PLAYERS_RES, payload })
 export const errPlayers = payload => ({ type: types.PLAYERS_ERR, payload })
+export const sortPlayers = payload => ({ type: types.PLAYERS_SORT, payload })
 export const receiveClan = payload => ({ type: types.CLAN_RES, payload })
 export const errClan = payload => ({ type: types.CLAN_ERR, payload })
+export const sortClanMembers = payload => ({
+  type: types.CLAN_MEMBER_SORT,
+  payload
+})
 export const receiveWarlog = payload => ({ type: types.WARLOG_RES, payload })
 export const errWarlog = payload => ({ type: types.WARLOG_ERR, payload })
 export const receiveWar = payload => ({ type: types.WAR_RES, payload })
@@ -32,7 +34,13 @@ export const errWar = payload => ({ type: types.WAR_ERR, payload })
 
 const init = {
   players: Data.Loading,
+  playersSortProp: 'trophies',
+  playersSortDir: 'desc',
+
   clan: Data.Loading,
+  clanSortProp: 'trophies',
+  clanSortDir: 'desc',
+
   warlog: Data.Loading,
   war: Data.Loading,
   changelog: DialogStatus.Closed
@@ -44,7 +52,9 @@ export default (state = init, { type, payload }) => {
       return {
         ...state,
         players: Data.List(
-          sortPlayers(Sort.Desc('trophies'))(formatPlayers(payload))
+          sort(state.playersSortDir, state.playersSortProp)(
+            formatPlayers(payload)
+          )
         )
       }
 
@@ -53,6 +63,37 @@ export default (state = init, { type, payload }) => {
         ...state,
         players: Data.Error(payload)
       }
+
+    case types.PLAYERS_SORT:
+      const direction = state.playersSortDir === 'desc' ? 'asc' : 'desc'
+
+      return state.players.cata({
+        List: players => ({
+          ...state,
+          players: Data.List(sort(direction, payload)(players)),
+          playersSortDir: direction,
+          playersSortProp: payload
+        }),
+        Loading: () => state,
+        Error: () => state
+      })
+
+    case types.CLAN_MEMBER_SORT:
+      const dir = state.clanSortDir === 'desc' ? 'asc' : 'desc'
+
+      return state.clan.cata({
+        List: clan => ({
+          ...state,
+          clanSortProp: payload,
+          clanSortDir: dir,
+          clan: Data.List({
+            ...clan,
+            memberList: sort(dir, payload)(clan.memberList)
+          })
+        }),
+        Loading: () => state,
+        Error: () => state
+      })
 
     case types.CLAN_RES:
       return {

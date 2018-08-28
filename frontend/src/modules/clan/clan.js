@@ -7,6 +7,7 @@ import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
+import TableSortLabel from '@material-ui/core/TableSortLabel'
 import Paper from '@material-ui/core/Paper'
 import Chip from '@material-ui/core/Chip'
 import LinearProgress from '@material-ui/core/LinearProgress'
@@ -15,6 +16,7 @@ import Fade from '@material-ui/core/Fade'
 
 import { ErrorCard } from '../reusable/errorCard'
 import { getClan } from './../../thunks'
+import { sortClanMembers } from './../../redux'
 
 const styles = theme => ({
   root: {
@@ -61,7 +63,13 @@ class ClanUnstyled extends Component {
   }
 
   render() {
-    const { classes, clan } = this.props
+    const {
+      classes,
+      clan,
+      clanSortProp,
+      clanSortDir,
+      sortClanMembers
+    } = this.props
 
     return clan.cata({
       List: clan => (
@@ -92,28 +100,58 @@ class ClanUnstyled extends Component {
                   <Table className={classes.table}>
                     <TableHead>
                       <TableRow>
-                        <TableCell>Members ({clan.members})</TableCell>
-                        <TableCell className={classes.nowrap} numeric>
-                          Trophies
+                        <TableCell className={classes.nowrap}>
+                          Members ({clan.members})
                         </TableCell>
                         <TableCell className={classes.nowrap} numeric>
-                          Level
+                          <TableSortLabel
+                            active={clanSortProp === 'trophies'}
+                            direction={clanSortDir}
+                            onClick={() => sortClanMembers('trophies')}
+                          >
+                            Trophies
+                          </TableSortLabel>
                         </TableCell>
                         <TableCell className={classes.nowrap} numeric>
-                          Donations
+                          <TableSortLabel
+                            active={clanSortProp === 'expLevel'}
+                            direction={clanSortDir}
+                            onClick={() => sortClanMembers('expLevel')}
+                          >
+                            Level
+                          </TableSortLabel>
                         </TableCell>
                         <TableCell className={classes.nowrap} numeric>
-                          Donations Received
+                          <TableSortLabel
+                            active={clanSortProp === 'donations'}
+                            direction={clanSortDir}
+                            onClick={() => sortClanMembers('donations')}
+                          >
+                            Donations
+                          </TableSortLabel>
+                        </TableCell>
+                        <TableCell className={classes.nowrap} numeric>
+                          <TableSortLabel
+                            active={clanSortProp === 'donationsReceived'}
+                            direction={clanSortDir}
+                            onClick={() => sortClanMembers('donationsReceived')}
+                          >
+                            Donations Received
+                          </TableSortLabel>
                         </TableCell>
                         <TableCell>Role</TableCell>
                         <TableCell className={classes.nowrap}>Arena</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {clan.memberList.map(member => (
+                      {clan.memberList.map((member, i) => (
                         <TableRow key={member.tag}>
-                          <TableCell component="th" scope="row">
-                            {member.name}
+                          <TableCell
+                            className={classes.nowrap}
+                            component="th"
+                            scope="row"
+                          >
+                            {i + 1}. {member.name}
                           </TableCell>
                           <TableCell numeric>{member.trophies}</TableCell>
                           <TableCell numeric>{member.expLevel}</TableCell>
@@ -153,5 +191,5 @@ const ClanStyled = withStyles(styles)(ClanUnstyled)
 
 export const Clan = connect(
   state => state,
-  { getClan }
+  { getClan, sortClanMembers }
 )(ClanStyled)

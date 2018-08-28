@@ -12,20 +12,23 @@ const cleanDate = d =>
 
 const formatPlayer = player => ({
   ...player,
+  trophiesFormatted: player.trophies.toLocaleString(),
   totalDonationsFormatted: player.totalDonations.toLocaleString(),
   clanCardsCollectedFormatted: player.clanCardsCollected.toLocaleString(),
+  battlesFormatted: player.battleCount.toLocaleString(),
+  winsFormatted: player.wins.toLocaleString(),
+  lossesFormatted: player.losses.toLocaleString(),
+  threeCrownWinsFormatted: player.threeCrownWins.toLocaleString(),
   lastUpdate: formatDate(player.lastUpdate),
   winRatio: (player.wins / player.losses).toFixed(2),
+  winLossDiffNum: player.wins - player.losses,
   winLossDiff: compose(getDiff)(p => p.wins - p.losses)(player)
 })
 
-export const sortPlayers = sort => players =>
-  players.sort((x, y) =>
-    sort.cata({
-      Asc: prop => x[prop] - y[prop],
-      Desc: prop => y[prop] - x[prop]
-    })
-  )
+export const sort = (direction, prop) => players =>
+  direction === 'asc'
+    ? players.sort((x, y) => x[prop] - y[prop])
+    : players.sort((x, y) => y[prop] - x[prop])
 
 export const formatPlayers = players => players.map(formatPlayer)
 
