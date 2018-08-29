@@ -1,5 +1,6 @@
 import { compose } from 'sanctuary'
 import { Diff, Standing, Medal } from './unionTypes'
+import dayjs from 'dayjs'
 
 const formatPlayer = player => ({
   ...player,
@@ -12,7 +13,8 @@ const formatPlayer = player => ({
   threeCrownWinsFormatted: player.threeCrownWins.toLocaleString(),
   winRatio: (player.wins / player.losses).toFixed(2),
   winLossDiffNum: player.wins - player.losses,
-  winLossDiff: compose(getDiff)(p => p.wins - p.losses)(player)
+  winLossDiff: compose(getDiff)(p => p.wins - p.losses)(player),
+  lastUpdateFormatted: dayjs(player.lastUpdate).format('MMM D, YYYY h:mm A')
 })
 
 export const sort = (direction, prop) => players =>
@@ -24,6 +26,7 @@ export const formatPlayers = players => players.map(formatPlayer)
 
 export const formatClan = clan => ({
   ...clan,
+  lastUpdateFormatted: dayjs(clan.lastUpdate).format('MMM D, YYYY h:mm A'),
   donationsFormatted: clan.donationsPerWeek.toLocaleString()
 })
 
@@ -51,6 +54,7 @@ export const formatWar = warlog =>
   compose(crew => ({
     ...warlog,
     crew,
+    createdDateFormatted: dayjs(warlog.createdDateClean).format('MMM D, YYYY'),
     trophyChange: getDiff(crew.trophyChange),
     standing: standing(warlog.standing),
     standings: warlog.standings.map(standing => ({

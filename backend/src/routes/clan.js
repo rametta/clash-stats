@@ -1,48 +1,39 @@
+import dotenv from 'dotenv'
 import express from 'express'
-import dayjs from 'dayjs'
+import axios from 'axios'
+import { tryP, parallel } from 'fluture'
 import Clan from './../models/clan'
 const router = express.Router()
+dotenv.config()
 
-const formatClan = clan => ({
-  ...clan._doc,
-  lastUpdateFormatted: dayjs(clan.lastUpdate).format('MMM D YYYY h:mm A')
-})
+const CLASH = process.env.CLASH_API_URL
+const TOKEN = process.env.CLASH_TOKEN
 
-router.get('/api/clans', (req, res, next) =>
-  Clan.find()
-    .then(clans => clans.map(formatClan))
-    .then(clans => res.send(clans))
+const fetchClanUpdate = clan =>
+  tryP(() =>
+    axios.get(`${CLASH}/v1/clans/${encodeURIComponent(clan.tag)}`, {
+      headers: { Authorization: `Bearer  ${TOKEN}` }
+    })
+  ).map(({ data }) => ({ ...data, lastUpdate: Date.now() }))
+
+const updateClan = clan =>
+  tryP(() => Clan.findOneAndUpdate({ tag: clan.tag }, clan))
+
+router.get('/api/update-clans', (req, res, next) =>
+  tryP(() => Clan.find())
+    .map(clans => clans.map(fetchClanUpdate))
+    .chain(clans => parallel(Infinity, clans))
+    .map(clans => clans.map(updateClan))
+    .chain(clans => parallel(Infinity, clans))
+    .fork(e => res.status(500).send(e), r => res.send(r))
 )
 
-router.get('/api/clan/:id', (req, res, next) =>
-  Clan.findById(req.params.id)
-    .then(formatClan)
-    .then(clan => res.send(clan))
+router.get('/api/clans', (req, res, next) =>
+  Clan.find().then(clans => res.send(clans))
 )
 
 router.get('/api/clan/tag/:tag', (req, res, next) =>
-  Clan.findOne({ tag: req.params.tag })
-    .then(formatClan)
-    .then(clan => res.send(clan))
-)
-
-router.post('/api/clan', (req, res, next) =>
-  new Clan(req.body.clan)
-    .save()
-    .then(clan => res.send(clan))
-    .catch(err => res.status(400).send(err))
-)
-
-router.put('/api/clan', (req, res, next) =>
-  Clan.updateOne({ _id: req.body.clan._id }, req.body.clan)
-    .then(clan => res.send(clan))
-    .catch(err => res.status(400).send(err))
-)
-
-router.delete('/api/clan', (req, res, next) =>
-  Clan.remove({ _id: req.body.id })
-    .then(suc => res.send({ msg: `Clan ${req.body.id} deleted` }))
-    .catch(err => res.status(400).send(err))
+  Clan.findOne({ tag: req.params.tag }).then(clan => res.send(clan))
 )
 
 export default router

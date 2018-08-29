@@ -1,31 +1,47 @@
 import express from 'express'
-import dayjs from 'dayjs'
+import dotenv from 'dotenv'
+import axios from 'axios'
+import { tryP, parallel } from 'fluture'
 import Player from './../models/player'
 import Clan from './../models/clan'
 const router = express.Router()
+dotenv.config()
 
-const formatPlayer = player => ({
-  ...player._doc,
-  lastUpdateFormatted: dayjs(player.lastUpdate).format('MMM D YYYY h:mm A')
-})
+const CLASH = process.env.CLASH_API_URL
+const TOKEN = process.env.CLASH_TOKEN
+
+const fetchPlayerUpdates = tag =>
+  tryP(() =>
+    axios.get(`${CLASH}/v1/players/${encodeURIComponent(tag)}`, {
+      headers: { Authorization: `Bearer  ${TOKEN}` }
+    })
+  ).map(({ data }) => ({ ...data, lastUpdate: Date.now() }))
+
+const updatePlayer = player =>
+  tryP(() =>
+    Player.findOneAndUpdate({ tag: player.tag }, player, {
+      upsert: true
+    })
+  )
+
+router.get('/api/update-players', (req, res, next) =>
+  tryP(() => Clan.findOne({ tag: '#89PPCGU8' }))
+    .map(clan => clan.memberList.map(m => m.tag))
+    .map(tags => tags.map(fetchPlayerUpdates))
+    .chain(updates => parallel(Infinity, updates))
+    .map(players => players.map(updatePlayer))
+    .chain(players => parallel(Infinity, players))
+    .fork(e => res.status(500).send(e), r => res.send(r))
+)
 
 router.get('/api/players', (req, res, next) =>
   Player.find()
-    .then(players => players.map(formatPlayer))
+    .select('-achievements -cards -currentDeck -clan -leagueStatistics -_id')
     .then(players => res.send(players))
 )
 
-router.get('/api/player/:id', (req, res, next) =>
-  Player.findById(req.params.id).then(player => res.send(player))
-)
-
-// Upsert, will insert if no record with that tag, otherwise will update
-router.post('/api/player', (req, res, next) =>
-  Player.findOneAndUpdate({ tag: req.body.player.tag }, req.body.player, {
-    upsert: true
-  })
-    .then(player => res.send(player))
-    .catch(err => res.status(400).send(err))
+router.get('/api/player/:tag', (req, res, next) =>
+  Player.find({ tag: req.params.tag }).then(player => res.send(player))
 )
 
 // This route will clean up the Player collection
@@ -39,12 +55,6 @@ router.get('/api/playerpurge', (req, res, next) =>
     .then(members => members.map(m => m._id))
     .then(ids => Player.deleteMany({ _id: { $in: ids } }))
     .then(result => res.send(result))
-    .catch(err => res.status(400).send(err))
-)
-
-router.delete('/api/player', (req, res, next) =>
-  Player.remove({ _id: req.body.id })
-    .then(suc => res.send({ msg: `Player ${req.body.id} deleted` }))
     .catch(err => res.status(400).send(err))
 )
 

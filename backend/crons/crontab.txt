@@ -1,0 +1,4 @@
+*/10 * * * * ~/clash-stats/backend/crons/clan.sh
+*/10 * * * * ~/clash-stats/backend/crons/players.sh
+*/10 * * * * ~/clash-stats/backend/crons/warlog.sh
+*/15 * * * * ~/clash-stats/backend/crons/playerPurge.sh

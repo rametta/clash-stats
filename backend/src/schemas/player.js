@@ -6,6 +6,12 @@ import CardSchema from './card'
 
 const Schema = mongoose.Schema
 
+const ClanSchema = new Schema({
+  tag: String,
+  name: String,
+  badgeId: Number
+})
+
 const PlayerSchema = new Schema({
   tag: { type: String, required: [true, 'Player tag is required'] },
   name: String,
@@ -25,6 +31,7 @@ const PlayerSchema = new Schema({
   totalDonations: Number,
   warDayWins: Number,
   clanCardsCollected: Number,
+  clan: ClanSchema,
   arena: ArenaSchema,
   leagueStatistics: LeagueStatsSchema,
   achievements: [AchievementSchema],
