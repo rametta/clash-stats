@@ -28,6 +28,7 @@ const StandingSchema = new Schema({
 const WarlogSchema = new Schema({
   seasonId: Number,
   createdDate: { type: String, unique: true },
+  createdDateClean: String,
   participants: [ParticipantSchema],
   standings: [StandingSchema],
   standing: String,

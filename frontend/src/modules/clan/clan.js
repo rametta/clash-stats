@@ -174,7 +174,7 @@ class ClanUnstyled extends Component {
                   </Table>
                 </Paper>
                 <Typography color="textSecondary">
-                  Updated: {clan.lastUpdate}
+                  Updated: {clan.lastUpdateFormatted}
                 </Typography>
               </Grid>
             </Grid>

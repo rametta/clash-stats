@@ -275,7 +275,7 @@ class HomeUnstyled extends Component {
                           {player.clanCardsCollectedFormatted}
                         </TableCell>
                         <TableCell padding="dense" className={classes.nowrap}>
-                          {player.lastUpdate}
+                          {player.lastUpdateFormatted}
                         </TableCell>
                       </TableRow>
                     ))}

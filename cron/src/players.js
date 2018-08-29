@@ -37,8 +37,7 @@ const updatePlayer = player =>
   )
 
 // updateTime :: Player -> Player
-const updateTime = player =>
-  Object.assign({}, player, { lastUpdate: Date.now() })
+const updateTime = player => ({ ...player, lastUpdate: Date.now() })
 
 players()
   .map(users => users.map(fetchPlayerUpdates))

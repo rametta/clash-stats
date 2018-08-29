@@ -1,10 +1,18 @@
 import express from 'express'
+import dayjs from 'dayjs'
 import Player from './../models/player'
 import Clan from './../models/clan'
 const router = express.Router()
 
+const formatPlayer = player => ({
+  ...player._doc,
+  lastUpdateFormatted: dayjs(player.lastUpdate).format('MMM D YYYY h:mm A')
+})
+
 router.get('/api/players', (req, res, next) =>
-  Player.find().then(players => res.send(players))
+  Player.find()
+    .then(players => players.map(formatPlayer))
+    .then(players => res.send(players))
 )
 
 router.get('/api/player/:id', (req, res, next) =>

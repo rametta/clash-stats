@@ -26,14 +26,14 @@ const fetchClanUpdate = clan =>
     axios.get(`${CLASH}/v1/clans/${encodeURIComponent(clan.tag)}`, {
       headers: { Authorization: `Bearer  ${TOKEN}` }
     })
-  ).map(({ data }) => Object.assign({}, data, { _id: clan._id }))
+  ).map(({ data }) => ({ ...data, _id: clan._id }))
 
 // updateClan :: Clan -> Future Clan
 const updateClan = clan =>
   tryP(() => axios.put(`${API}/api/clan`, { clan })).map(({ data }) => data)
 
 // updateTime :: Clan -> Clan
-const updateTime = clan => Object.assign({}, clan, { lastUpdate: Date.now() })
+const updateTime = clan => ({ ...clan, lastUpdate: Date.now() })
 
 clan()
   .map(clans => clans[0])

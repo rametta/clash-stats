@@ -9,7 +9,6 @@
     "@material-ui/icons": "^2.0.2",
     "axios": "^0.18.0",
     "daggy": "^1.2.0",
-    "dayjs": "^1.7.5",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
     "react-redux": "^5.0.7",

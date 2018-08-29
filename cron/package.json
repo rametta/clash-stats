@@ -17,6 +17,7 @@
     "build": "yarn clean && babel -d ./build ./src/players.js && babel -d ./build ./src/clan.js && babel -d ./build ./src/warlog.js"
   },
   "devDependencies": {
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.7.0"
   }
 }

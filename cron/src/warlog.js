@@ -16,6 +16,12 @@ const TOKEN = process.env.CLASH_TOKEN
  * 2. Post Updates back to our API
  */
 
+const cleanDate = d =>
+  `${d.substr(0, 4)}-${d.substr(4, 2)}-${d.substr(6, 5)}:${d.substr(
+    11,
+    2
+  )}:${d.substr(13, 7)}`
+
 // fetchWarlog :: Future Warlog
 const fetchWarlog = () =>
   tryP(() =>
@@ -31,13 +37,14 @@ const updateWarlog = warlog =>
   )
 
 // clean :: Warlog -> Warlog
-const clean = warlog =>
-  Object.assign({}, warlog, {
-    lastUpdate: Date.now(),
-    standing: numeral(
-      warlog.standings.findIndex(s => s.clan.tag === '#89PPCGU8') + 1
-    ).format('0o')
-  })
+const clean = warlog => ({
+  ...warlog,
+  lastUpdate: Date.now(),
+  createdDateClean: cleanDate(warlog.createdDate),
+  standing: numeral(
+    warlog.standings.findIndex(s => s.clan.tag === '#89PPCGU8') + 1
+  ).format('0o')
+})
 
 fetchWarlog()
   .map(({ items }) => items)
