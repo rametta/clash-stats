@@ -1,4 +1,11 @@
-import { formatPlayers, formatClan, formatWarlogs, sort } from './formatters'
+import {
+  formatPlayers,
+  formatClan,
+  formatWarlogs,
+  formatWar,
+  formatCurrentWar,
+  sort
+} from './formatters'
 import { Data, DialogStatus } from './unionTypes'
 
 const types = {
@@ -12,6 +19,8 @@ const types = {
   WARLOG_ERR: 'WARLOG_ERR',
   WAR_RES: 'WAR_RES',
   WAR_ERR: 'WAR_ERR',
+  CURRENT_WAR_RES: 'CURRENT_WAR_RES',
+  CURRENT_WAR_ERR: 'CURRENT_WAR_ERR',
   OPEN_CHANGELOG: 'OPEN_CHANGELOG',
   CLOSE_CHANGELOG: 'CLOSE_CHANGELOG'
 }
@@ -31,6 +40,14 @@ export const receiveWarlog = payload => ({ type: types.WARLOG_RES, payload })
 export const errWarlog = payload => ({ type: types.WARLOG_ERR, payload })
 export const receiveWar = payload => ({ type: types.WAR_RES, payload })
 export const errWar = payload => ({ type: types.WAR_ERR, payload })
+export const receiveCurrentWar = payload => ({
+  type: types.CURRENT_WAR_RES,
+  payload
+})
+export const errCurrentWar = payload => ({
+  type: types.CURRENT_WAR_ERR,
+  payload
+})
 
 const init = {
   players: Data.Loading,
@@ -43,6 +60,7 @@ const init = {
 
   warlog: Data.Loading,
   war: Data.Loading,
+  currentWar: Data.Loading,
   changelog: DialogStatus.Closed
 }
 
@@ -122,13 +140,25 @@ export default (state = init, { type, payload }) => {
     case types.WAR_RES:
       return {
         ...state,
-        war: Data.List(payload)
+        war: Data.List(formatWar(payload))
       }
 
     case types.WAR_ERR:
       return {
         ...state,
         war: Data.Error(payload)
+      }
+
+    case types.CURRENT_WAR_RES:
+      return {
+        ...state,
+        currentWar: Data.List(formatCurrentWar(payload))
+      }
+
+    case types.CURRENT_WAR_ERR:
+      return {
+        ...state,
+        currentWar: Data.Error(payload)
       }
 
     case types.OPEN_CHANGELOG:

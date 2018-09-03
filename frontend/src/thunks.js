@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { formatWar } from './formatters'
 import {
   receivePlayers,
   errPlayers,
@@ -8,7 +7,9 @@ import {
   receiveWarlog,
   errWarlog,
   receiveWar,
-  errWar
+  errWar,
+  receiveCurrentWar,
+  errCurrentWar
 } from './redux'
 
 export const getPlayers = () => dispatch =>
@@ -39,19 +40,18 @@ export const getWarlog = () => dispatch =>
     )
 
 export const getWar = date => (dispatch, getState) => {
-  const war = getState().warlog.cata({
-    List: warlog => warlog.find(w => w.createdDate === date),
-    Error: () => null,
-    Loading: () => null
-  })
-
-  war
-    ? dispatch(receiveWar(war))
-    : axios
-        .get(`/api/war/${date}`)
-        .then(({ data }) => data)
-        .then(war => dispatch(receiveWar(formatWar(war))))
-        .catch(err =>
-          dispatch(errWar("There's been an error. We'll fix it soon!"))
-        )
+  axios
+    .get(`/api/war/${date}`)
+    .then(({ data }) => data)
+    .then(war => dispatch(receiveWar(war)))
+    .catch(err => dispatch(errWar("There's been an error. We'll fix it soon!")))
 }
+
+export const getCurrentWar = () => dispatch =>
+  axios
+    .get('/api/currentwar')
+    .then(({ data }) => data)
+    .then(war => dispatch(receiveCurrentWar(war)))
+    .catch(err =>
+      dispatch(errCurrentWar("There's been an error. We'll fix it soon!"))
+    )

@@ -13,6 +13,8 @@ import Chip from '@material-ui/core/Chip'
 import LinearProgress from '@material-ui/core/LinearProgress'
 import Typography from '@material-ui/core/Typography'
 import Fade from '@material-ui/core/Fade'
+import ArrowUpIcon from '@material-ui/icons/ArrowDropUp'
+import ArrowDownIcon from '@material-ui/icons/ArrowDropDown'
 
 import { ErrorCard } from '../reusable/errorCard'
 import { getClan } from './../../thunks'
@@ -54,6 +56,9 @@ const styles = theme => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between'
+  },
+  upward: {
+    color: '#2ee82e'
   }
 })
 
@@ -100,10 +105,14 @@ class ClanUnstyled extends Component {
                   <Table className={classes.table}>
                     <TableHead>
                       <TableRow>
-                        <TableCell className={classes.nowrap}>
+                        <TableCell padding="dense" className={classes.nowrap}>
                           Members ({clan.members})
                         </TableCell>
-                        <TableCell className={classes.nowrap} numeric>
+                        <TableCell
+                          padding="dense"
+                          className={classes.nowrap}
+                          numeric
+                        >
                           <TableSortLabel
                             active={clanSortProp === 'trophies'}
                             direction={clanSortDir}
@@ -112,7 +121,11 @@ class ClanUnstyled extends Component {
                             Trophies
                           </TableSortLabel>
                         </TableCell>
-                        <TableCell className={classes.nowrap} numeric>
+                        <TableCell
+                          padding="dense"
+                          className={classes.nowrap}
+                          numeric
+                        >
                           <TableSortLabel
                             active={clanSortProp === 'expLevel'}
                             direction={clanSortDir}
@@ -121,7 +134,11 @@ class ClanUnstyled extends Component {
                             Level
                           </TableSortLabel>
                         </TableCell>
-                        <TableCell className={classes.nowrap} numeric>
+                        <TableCell
+                          padding="dense"
+                          className={classes.nowrap}
+                          numeric
+                        >
                           <TableSortLabel
                             active={clanSortProp === 'donations'}
                             direction={clanSortDir}
@@ -130,7 +147,11 @@ class ClanUnstyled extends Component {
                             Donations
                           </TableSortLabel>
                         </TableCell>
-                        <TableCell className={classes.nowrap} numeric>
+                        <TableCell
+                          padding="dense"
+                          className={classes.nowrap}
+                          numeric
+                        >
                           <TableSortLabel
                             active={clanSortProp === 'donationsReceived'}
                             direction={clanSortDir}
@@ -139,33 +160,48 @@ class ClanUnstyled extends Component {
                             Donations Received
                           </TableSortLabel>
                         </TableCell>
-                        <TableCell>Role</TableCell>
-                        <TableCell className={classes.nowrap}>Arena</TableCell>
+                        <TableCell padding="dense">Role</TableCell>
+                        <TableCell padding="dense" className={classes.nowrap}>
+                          Arena
+                        </TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
                       {clan.memberList.map((member, i) => (
                         <TableRow key={member.tag}>
                           <TableCell
+                            padding="dense"
                             className={classes.nowrap}
                             component="th"
                             scope="row"
                           >
                             {i + 1}. {member.name}
+                            {member.change.cata({
+                              Positive: () => (
+                                <ArrowUpIcon className={classes.upward} />
+                              ),
+                              Negative: () => <ArrowDownIcon color="error" />,
+                              Neutral: () => null
+                            })}
                           </TableCell>
-                          <TableCell numeric>{member.trophies}</TableCell>
-                          <TableCell numeric>{member.expLevel}</TableCell>
-                          <TableCell numeric>{member.donations}</TableCell>
-                          <TableCell numeric>
+                          <TableCell padding="dense" numeric>
+                            {member.trophies}
+                          </TableCell>
+                          <TableCell padding="dense" numeric>
+                            {member.expLevel}
+                          </TableCell>
+                          <TableCell padding="dense" numeric>
+                            {member.donations}
+                          </TableCell>
+                          <TableCell padding="dense" numeric>
                             {member.donationsReceived}
                           </TableCell>
-
-                          <TableCell>
+                          <TableCell padding="dense">
                             <small className={classes.role}>
                               {member.role}
                             </small>
                           </TableCell>
-                          <TableCell className={classes.nowrap}>
+                          <TableCell padding="dense" className={classes.nowrap}>
                             {member.arena.name}
                           </TableCell>
                         </TableRow>

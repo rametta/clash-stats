@@ -47,6 +47,7 @@ router.get('/api/update-warlogs', (req, res, next) =>
 
 router.get('/api/warlog', (req, res, next) =>
   Warlog.find()
+    .select('-_id -__v')
     .sort('-createdDateClean')
     .skip(+req.query.skip || 0)
     .limit(+req.query.limit || 30)

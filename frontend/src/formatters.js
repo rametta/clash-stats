@@ -27,7 +27,16 @@ export const formatPlayers = players => players.map(formatPlayer)
 export const formatClan = clan => ({
   ...clan,
   lastUpdateFormatted: dayjs(clan.lastUpdate).format('MMM D, YYYY h:mm A'),
-  donationsFormatted: clan.donationsPerWeek.toLocaleString()
+  donationsFormatted: clan.donationsPerWeek.toLocaleString(),
+  memberList: clan.memberList.map(member => ({
+    ...member,
+    change:
+      member.clanRank > member.previousClanRank
+        ? Diff.Negative('-')
+        : member.clanRank < member.previousClanRank
+          ? Diff.Positive('+')
+          : Diff.Neutral('')
+  }))
 })
 
 const getCrew = warlog => warlog.standings.find(s => s.clan.tag === '#89PPCGU8')
@@ -71,3 +80,10 @@ export const formatWar = warlog =>
   }))(getCrew)(warlog)
 
 export const formatWarlogs = warlogs => warlogs.map(formatWar)
+
+export const formatCurrentWar = war => ({
+  ...war,
+  formattedCollectionEndTime: dayjs(war.cleanCollectionEndTime).format(
+    'MMM D, YYYY h:mm A'
+  )
+})
