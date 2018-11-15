@@ -6,6 +6,8 @@ import player from './routes/player'
 import clan from './routes/clan'
 import warlog from './routes/warlog'
 import currentWar from './routes/currentWar'
+import collars from './routes/collars'
+
 const app = express()
 dotenv.config()
 
@@ -16,6 +18,7 @@ app.use(player)
 app.use(clan)
 app.use(warlog)
 app.use(currentWar)
+app.use(collars)
 
 mongoose.Promise = global.Promise
 mongoose
