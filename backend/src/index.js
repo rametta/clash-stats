@@ -20,6 +20,8 @@ app.use(warlog)
 app.use(currentWar)
 app.use(collars)
 
+app.enable('trust proxy')
+
 mongoose.Promise = global.Promise
 mongoose
   .connect(
